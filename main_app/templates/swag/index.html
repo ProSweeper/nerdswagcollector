@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Swag List</h1>
+
+{% for item in swag %}
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ item.item }}</span>
+            <p>Type: {{ item.type }}</p>
+            <p>Description: {{ item.description }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

@@ -1,9 +1,5 @@
 from django.shortcuts import render
-
-swag = [
-    {'item': 'Mandalorian Helmet', 'type': 'Wearable', 'description': 'Helmet from a Mandalorian'},
-    {'item': 'Uruk-Hai Rubber Duck', 'type': 'Display', 'description': 'A Rubber Duck wearing Isengard armour'},
-]
+from .models import Swag
 
 # Create your views here.
 def home(request):
@@ -15,7 +11,11 @@ def about(request):
     return render(request, 'about.html')
 
 def swag_index(request):
-    # pass in the temp data for the index page to render in the third arg
+    swags = Swag.objects.all()
     return render(request, 'swag/index.html', {
-        'swag': swag,
+        'swags': swags,
     })
+
+def swag_detail(request, swag_id):
+  swag = Swag.objects.get(id=swag_id)
+  return render(request, 'swag/detail.html', {'swag': swag})

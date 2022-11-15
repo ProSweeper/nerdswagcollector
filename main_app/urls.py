@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
     path('swag/', views.swag_index, name='index'),
+    path('swag/<int:swag_id>/', views.swag_detail, name='detail')
 ]

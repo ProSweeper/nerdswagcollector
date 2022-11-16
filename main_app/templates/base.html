@@ -16,8 +16,9 @@
           <li><a href="/" class="left brand-logo">&nbsp;&nbsp;Nerd Swag Collector</a></li>
         </ul>
         <ul class="right">
-          <li><a href="/about">About</a></li>
-          <li><a href="/swag">View All My Nerd Swag</a></li>
+          <li><a href="{% url 'about' %}}">About</a></li>
+          <li><a href="{% url 'swag_create' %}">Add Some Swag</a></li>
+          <li><a href="{% url 'index' %}">View All My Nerd Swag</a></li>
         </ul>
       </div>
     </nav>

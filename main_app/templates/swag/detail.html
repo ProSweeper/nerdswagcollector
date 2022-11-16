@@ -6,5 +6,9 @@
       <p>Type: {{ swag.type }}</p>
       <p>Description: {{ swag.description|linebreaks }}</p>
   </div>
+  <div class="card-action">
+    <a href="{% url 'swag_update' swag.id %}">Edit</a>
+    <a href="{% url 'swag_delete' swag.id %}">Delete</a>
+  </div>
 </div>
 {% endblock %}

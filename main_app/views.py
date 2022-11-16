@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Swag
 
 # Create your views here.
@@ -19,3 +20,16 @@ def swag_index(request):
 def swag_detail(request, swag_id):
   swag = Swag.objects.get(id=swag_id)
   return render(request, 'swag/detail.html', {'swag': swag})
+
+class SwagCreate(CreateView):
+  model = Swag
+  fields = '__all__'
+
+class SwagUpdate(UpdateView):
+  model = Swag
+  fields = ['type', 'description']
+
+class SwagDelete(DeleteView):
+  model = Swag
+  success_url = '/swag'
+  

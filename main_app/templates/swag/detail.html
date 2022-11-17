@@ -1,14 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card">
-  <div class="card-content">
-      <span class="card-title">{{ swag.item }}</span>
-      <p>Type: {{ swag.type }}</p>
-      <p>Description: {{ swag.description|linebreaks }}</p>
-  </div>
-  <div class="card-action">
-    <a href="{% url 'swag_update' swag.id %}">Edit</a>
-    <a href="{% url 'swag_delete' swag.id %}">Delete</a>
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+          <span class="card-title">{{ swag.item }}</span>
+          <p>Type: {{ swag.type }}</p>
+          <p>Description: {{ swag.description|linebreaks }}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'swag_update' swag.id %}">Edit</a>
+        <a href="{% url 'swag_delete' swag.id %}">Delete</a>
+      </div>
   </div>
 </div>
+  <div class="col s6">
+    <form action="{% url 'add_cleaning' swag.id %}" method="POST">
+      <!-- need this for each form being submitted -->
+      {% csrf_token %}
+      <!-- Render the inputs -->
+      {{ cleaning_form.as_p }}
+      <input type="submit" class="btn" value="Add Cleaing">
+    </form>
+    <br>
+    {% if swag.cleaned_this_week %}
+      <div class="card-panel teal-text center-align">{{swag.item}} has cleaned in the last week</div>
+    {% else %}
+      <div class="card-panel red-text center-align">{{swag.item}} should probably be cleaned</div>
+    {% endif %}
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Method</th></tr>
+      </thead>
+      <tbody>
+        {% for cleaning in swag.cleaning_set.all %}
+          <tr>
+            <td>{{cleaning.date}}</td>
+            <td>{{cleaning.get_method_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  const dateEl = document.getElementById('id_date');
+  // M is Materialize's global variable
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true,
+  });
+
+  // initialize the form selector
+  const selectEl = document.getElementById('id_method');
+  M.FormSelect.init(selectEl);
+</script>
 {% endblock %}

@@ -21,11 +21,16 @@ def swag_index(request):
 
 def swag_detail(request, swag_id):
   swag = Swag.objects.get(id=swag_id)
+  # create a list of the sets that the swag is a part of
+  id_list = swag.sets.all().values_list('id')
+  # now we can query for sets whos ids are not in the list using exclude
+  sets_not_apart_of = Set.objects.exclude(id__in=id_list)
   # instantiate the cleaning form to be rendered in detail.html
   cleaning_form = CleaningForm()
   return render(request, 'swag/detail.html', {
     'swag': swag,
     'cleaning_form': cleaning_form,
+    'sets': sets_not_apart_of,
   })
 
 class SwagCreate(CreateView):
@@ -71,3 +76,15 @@ class SetUpdate(UpdateView):
 class SetDelete(DeleteView):
   model = Set
   success_url = '/sets'
+
+def assoc_set(request, swag_id, set_id):
+  # get will return the object that matches the query
+  # we pass the ids into our function
+  Swag.objects.get(id=swag_id).sets.add(set_id)
+  # redirect since we are performing crud
+  return redirect('detail', swag_id=swag_id)
+
+def rm_assoc_set(request, set_id, swag_id):
+  Set.objects.get(id=set_id).swag_set.remove(Swag.objects.get(id=swag_id))
+  # redirect since we are performing crud
+  return redirect('detail', swag_id=swag_id)

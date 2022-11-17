@@ -14,10 +14,14 @@ urlpatterns = [
   path('swag/<int:pk>/update/', views.SwagUpdate.as_view(), name='swag_update'),
   path('swag/<int:pk>/delete/', views.SwagDelete.as_view(), name='swag_delete'),
   path('swag/<int:swag_id>/add_cleaning', views.add_cleaning, name='add_cleaning'),
+  # associate a set with some swag (M:M)
+  path('swag/<int:swag_id>/assoc_set/<int:set_id>/', views.assoc_set, name='assoc_set'),
   # set related routes
   path('sets/', views.SetList.as_view(), name='sets_index'),
   path('sets/<int:pk>/', views.SetDetail.as_view(), name='sets_detail'),
   path('sets/create/', views.SetCreate.as_view(), name='sets_create'),
   path('sets/<int:pk>/update/', views.SetUpdate.as_view(), name='sets_update'),
   path('sets/<int:pk>/delete/', views.SetDelete.as_view(), name='sets_delete'),
+  # unassociate a set with some swag (M:M)
+  path('sets/<int:set_id>/rm_assoc_set/<int:swag_id>/', views.rm_assoc_set, name='rm_assoc_set'),
 ]
